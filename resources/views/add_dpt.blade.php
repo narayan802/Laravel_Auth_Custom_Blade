@@ -27,40 +27,27 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </head>
 <body>
-    @if(session()->has('message'))
-    <div class="alert alert-success">
-        {{ session()->get('message') }}
+
+
+    <div class="divclass fontSizeClass">Add Department</div>
+    <div class="divclass">
+        <form action="{{route('add_depy')}}" method="POST">
+            @csrf
+
+            <div>
+                <label for="name">Department Name</label>
+                <input type="text" name="dep_name" class="form-control">
+                @error('email')
+                {{ $message }}
+                @enderror
+            </div>
+
+            <div>
+                <input type="submit" value="Save" class="btn btn-primary">
+            </div>
+
+        </form>
     </div>
-@endif
-
-
-<h1>Wellcome to Dashboard </h1>
-@auth
-<p>User Name:{{Auth::User()->name}}</p>
-<p>user Email:{{Auth::User()->email}}</p>
- {{-- {{Auth::User()}} --}}
-@endauth
-
-@if (session('message'))
-<div class="alert alert-primary" role="alert">
-    {{ session('message') }}
-</div>
-  @endif
-
-<div>
-    <form action="{{Route('userlogout')}}" method="POST">
-        @csrf
-        <input type="submit" name="logout"  value="Logout" class="btn btn-primary">
-    </form>
-    {{-- <a href="{{Route('login')}}" class="btn btn-primary">Logout</a> --}}
-</div>
-<br>
-
-    <a href="{{Route('add_depy')}}" class="btn btn-primary">Add Department</a>
-
-
-
-<a href="{{Route('emp')}}" class="btn btn-primary">Add Employees</a>
 
 </body>
 </html>

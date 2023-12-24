@@ -22,11 +22,13 @@ class RegisterController extends Controller
             'email' => 'required|email|unique:users',
             'password' => 'min:5|required|confirmed'
 
+
         ]);
         $user = new User;
         $user->name = $validate['name'];
         $user->email = $validate['email'];
         $user->password = $validate['password'];
+        $user->role = 'admin';
         $user->save();
         return back()->with('message', 'Register Sucessfully');
     }

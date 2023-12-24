@@ -26,4 +26,11 @@ Route::Post('/login', [LoginController::class, 'login'])->name('login');
 Route::middleware('authCheaking')->group(function () {
     Route::get('/dashboard', [DeshboardController::class, 'showdata'])->name('dashboard');
     Route::post('/logout', [LogoutController::class, 'logout'])->name('userlogout');
+
+    Route::get('/adddpt', [DeshboardController::class, 'addedpt'])->name('add_depy');
+    Route::Post('/adddpt', [DeshboardController::class, 'savedpt'])->name('add_depy');
+
+    Route::get('/emp', [DeshboardController::class, 'empform'])->name('emp');
+
+    Route::post('/addemp', [DeshboardController::class, 'save'])->name('saveemp');
 });

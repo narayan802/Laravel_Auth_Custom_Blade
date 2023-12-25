@@ -6,14 +6,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Employe;
 
+
 class Salary extends Model
 {
     use HasFactory;
+    protected $primaryKey = 'id';
     protected $fillable = [
         'salary'
     ];
-    public function employees()
+    public function Employe()
     {
-        return $this->belongsTo(Employe::class);
+        return $this->hasOne(Employe::class, 'id', 'sal_id');
     }
 }

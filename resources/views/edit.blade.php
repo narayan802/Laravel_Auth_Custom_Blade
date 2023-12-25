@@ -33,14 +33,15 @@
     </div>
 @endif
 
-    <div class="divclass fontSizeClass">Add Employees</div>
+    <div class="divclass fontSizeClass">Edit Employees</div>
     <div class="divclass">
 
-        <form action="{{Route('saveemp')}}" method="POST">
+        <form action="{{Route('update', $employee->id)}}" method="POST">
             @csrf
+            @method('PUT')
             <div>
                 <label for="name">Name</label>
-                <input type="text" name="name" class="form-control" value="{{old('name')}}">
+                <input type="text" name="name" class="form-control" value="{{$employee->name}}">
                 @error('name')
                 {{ $message }}
                 @enderror
@@ -48,28 +49,28 @@
 
             <div>
                 <label for="email">Email</label>
-                <input type="email" name="email" class="form-control" value="{{old('email')}}">
+                <input type="email" name="email" class="form-control" value="{{$employee->email}}">
                 @error('email')
                 {{ $message }}
                 @enderror
             </div>
             <div>
                 <label for="phone">Phone</label>
-                <input type="text" name="phone" class="form-control" value="">
+                <input type="text" name="phone" class="form-control" value="{{$employee->phone}}">
                 @error('phone')
                 {{ $message }}
                 @enderror
             </div>
             <div>
                 <label for="sal">Salary</label>
-                <input type="number" name="sal" >
+                <input type="number" name="sal" value ="{{$employee->Salary->salary}}">
             </div>
             <div>
-                <label for="deptment">Department</label>
-                <select class="divclass" name="department_name">
+                <label for="dept_id">Department</label>
+                <select class="divclass" name="dept_id">
                     <option selected>Select Department</option>
                     @foreach ($options as $department )
-                    <option value="{{$department->id}}">{{$department->dept_name}}</option>
+                    <option value="{{$department->id}}" {{$department->id == $employee->dept_id ? 'selected' : ''}}>{{$department->dept_name}}</option>
                     @endForeach
                   </select>
             </div>

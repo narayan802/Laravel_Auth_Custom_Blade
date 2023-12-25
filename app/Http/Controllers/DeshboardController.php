@@ -8,13 +8,17 @@ use App\Models\Department;
 use App\Models\Employe;
 use App\Models\Salary;
 
+
 class DeshboardController extends Controller
 {
 
     public function showdata()
     {
 
-        return view('dashboard');
+        $emp = Employe::with('Department', 'Salary')->get();
+
+
+        return view('dashboard', compact('emp'));
     }
     public function empform()
     {
@@ -41,25 +45,65 @@ class DeshboardController extends Controller
 
     public function save(Request $request)
     {
-        $num = Salary::get();
-        $num->salary = $request->sal;
 
         $request->validate([
             'name' => 'required',
-            'email' => 'required|email|unique:Employee',
-            'phone' => 'required|numeric|min:10|max:10',
-            'department_name' => 'required'
+            'email' => 'required|email|unique:Employes',
+            'phone' => 'required|numeric|min:10',
+            'department_name' => 'required',
+            'sal' => 'required|numeric'
         ]);
 
-        $user = new Employe;
+        $salary = Salary::create([
+            'salary' => $request->sal
+        ]);
 
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->phone = $request->phone;
-        $user->dept_id = $request->department_name;
-        $user->sal_id =  $num->salary;
+        Employe::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'dept_id' => $request->department_name,
+            'sal_id' => $salary->id
+        ]);
 
-        $user->save();
+
         return redirect('dashboard')->with('message', 'Employee Added Sucessfully');
+    }
+    public function edit($id)
+    {
+        $employee = Employe::where('id', $id)->first();
+        $options = Department::all();
+
+        return view('edit', compact('employee', 'options'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $employee = Employe::where('id', $id)->first();
+        $salary = Salary::where('id', $employee->sal_id)->first();
+        $salary->salary = $request->sal;
+        if ($salary->save()) {
+            $employee->name = $request->name;
+            $employee->email = $request->email;
+            $employee->phone = $request->phone;
+            $employee->dept_id = $request->dept_id;
+            $employee->save();
+            return redirect('dashboard')->with('message', 'Employee Update Sucessfully');
+        }
+        return redirect('dashboard')->with('error', 'Something went wrong');
+    }
+    public function destroy($id)
+
+    {
+
+
+
+        // $emp = Employe::where('id', $id)->first();
+
+        // $sal = Salary::find($id)->first();
+        // $emp->$sal->delete();
+
+
+        return redirect('dashboard');
     }
 }

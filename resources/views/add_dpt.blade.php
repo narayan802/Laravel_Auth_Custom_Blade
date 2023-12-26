@@ -27,8 +27,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </head>
 <body>
-
-
     <div class="divclass fontSizeClass">Add Department</div>
     <div class="divclass">
         <form action="{{route('add_depy')}}" method="POST">
@@ -36,8 +34,8 @@
 
             <div>
                 <label for="name">Department Name</label>
-                <input type="text" name="dep_name" class="form-control">
-                @error('email')
+                <input type="text" name="dept_name" class="form-control">
+                @error('dept_name')
                 {{ $message }}
                 @enderror
             </div>

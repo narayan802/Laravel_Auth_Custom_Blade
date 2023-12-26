@@ -33,13 +33,14 @@ class DeshboardController extends Controller
     }
     public function savedpt(Request $request)
     {
-
         $request->validate([
-            'dep_name' => 'required|max:10',
+            'dept_name' => 'required|unique:Departments',
         ]);
         $user = new Department;
-        $user->dept_name = $request->dep_name;
-        $user->save();
+        $user->dept_name = $request->dept_name;
+        if (!$user->save()) {
+            return back()->with('message', `Depertment $request->dept_name already exist`);
+        }
         return redirect('dashboard')->with('message', 'Depertment Added Sucessfully');
     }
 
@@ -93,17 +94,10 @@ class DeshboardController extends Controller
         return redirect('dashboard')->with('error', 'Something went wrong');
     }
     public function destroy($id)
-
     {
-
-
-
-        // $emp = Employe::where('id', $id)->first();
-
-        // $sal = Salary::find($id)->first();
-        // $emp->$sal->delete();
-
-
+        $emp = Employe::where('id', $id)->first();
+        $emp->Salary()->delete();
+        $emp->delete();
         return redirect('dashboard');
     }
 }

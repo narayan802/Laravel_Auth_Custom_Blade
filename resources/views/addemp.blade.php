@@ -67,11 +67,14 @@
             <div>
                 <label for="deptment">Department</label>
                 <select class="divclass" name="department_name">
-                    <option selected>Select Department</option>
+                    <option selected value={{null}}>Select Department</option>
                     @foreach ($options as $department )
                     <option value="{{$department->id}}">{{$department->dept_name}}</option>
                     @endForeach
                   </select>
+                  @error('department_name')
+                {{ $message }}
+                @enderror
             </div>
 
 
